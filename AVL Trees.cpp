@@ -1,57 +1,34 @@
+
 #include <iostream>
-#include <string>
 #include <vector>
 #include <algorithm>
+#include"Product.cpp"
 using namespace std;
-
-class Item {
-private:
-    string itemName;
-    string category;
-
-public:
-    int price;
-    Item(string name, string category, int price) : itemName(name), category(category), price(price) {}
-
-    bool operator<(const Item& other) {
-        return itemName < other.itemName;
-    }
-    bool operator>(const Item& other) {
-        return itemName > other.itemName;
-    }
-    void print() {
-        cout << "Item: " << itemName << ", Category: " << category << ", Price: " << price << endl;
-    }
-    friend ostream& operator<<(ostream& os, const Item& item) {
-        os << "Item: " << item.itemName << ", Category: " << item.category << ", Price: " << item.price << endl;
-        return os;
-    }
-};
 
 class AVLNode {
 public:
-    Item item;
+    Product item;
     AVLNode* left;
     AVLNode* right;
     int height;
 
-    AVLNode(Item item) : item(item), left(nullptr), right(nullptr), height(1) {}
+    AVLNode(Product item) : item(item), left(nullptr), right(nullptr), height(1) {}
 };
 
-class AVLTree {
+class AVLTree{
 private:
     AVLNode* root;
 
     int height(AVLNode* node) {
-        if (!node) {return -1;}
+        if (node == nullptr) return 0;
         return node->height;
     }
- 
+
     int balanceFactor(AVLNode* node) {
-        if (!node) {return -1;}
+        if (node == nullptr) return 0;
         return height(node->left) - height(node->right);
     }
-    
+
     AVLNode* rightRotate(AVLNode* y) {
         AVLNode* x = y->left;
         AVLNode* temp = x->right;
@@ -78,7 +55,7 @@ private:
         return y;
     }
 
-    AVLNode* insertNode(AVLNode* node, Item item) {
+    AVLNode* insertNode(AVLNode* node, Product item) {
         if (node == nullptr) return new AVLNode(item);
 
         if (item < node->item)
@@ -87,6 +64,21 @@ private:
             node->right = insertNode(node->right, item);
 
         node->height = 1 + max(height(node->left), height(node->right));
+
+        int balance = balanceFactor(node);
+
+        if (balance > 1 && item < node->left->item)
+            return rightRotate(node);
+        if (balance < -1 && item > node->right->item)
+            return leftRotate(node);
+        if (balance > 1 && item > node->left->item) {
+            node->left = leftRotate(node->left);
+            return rightRotate(node);
+        }
+        if (balance < -1 && item < node->right->item) {
+            node->right = rightRotate(node->right);
+            return leftRotate(node);
+        }
 
         return node;
     }
@@ -100,13 +92,13 @@ private:
         return current;
     }
 
-    AVLNode* deleteNode(AVLNode* root, Item target) {
+    AVLNode* deleteNode(AVLNode* root, Product key) {
         if (root == nullptr) return root;
 
-        if (target < root->item)
-            root->left = deleteNode(root->left, target);
-        else if (target > root->item)
-            root->right = deleteNode(root->right, target);
+        if (key < root->item)
+            root->left = deleteNode(root->left, key);
+        else if (key > root->item)
+            root->right = deleteNode(root->right, key);
         else {
             if ((root->left == nullptr) || (root->right == nullptr)) {
                 AVLNode* temp = root->left ? root->left : root->right;
