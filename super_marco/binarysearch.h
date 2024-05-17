@@ -2,41 +2,33 @@
 #define SUPER_MARCO_BINARYSEARCH_H
 #include <iostream>
 #include <string>
+#include"../Product.cpp"
 
 using namespace std;
-template <class t>
 class node{
 public:
-    t data;
-    t kind;
-    t price;
+    Product item;
     node* right;
     node* left;
-    node(){left = right = nullptr;}
-    node(t& elt ,t& k,t p,node* l = 0 ,node* r = 0){
-        data = elt;
-        kind = k;
-        price = p;
-        right = r;
-        left = l;
-    }
+    // node() : left(nullptr), right(nullptr) {}
+    node(Product itm) : item(itm), left(nullptr), right(nullptr){}
 };
-template <class t>
+
 class binarysearch{
 public:
-    node<t>* root;
+    node* root;
     binarysearch();
     bool isEmpty();
-    bool search(t item) ;
-    void remove(t item) ;
-    void insert (t item,t kind ,t price);
+    bool search(Product item) ;
+    void remove(Product item) ;
+    void insert (Product item);
     void print() ;
-    void printInOrder(node<t>* currentNode) ;
+    void printInOrder(node* currentNode) ;
     void printfl();
-    void printInOrderfl(node<t>* currentNode) ;
+    void printInOrderfl(node* currentNode) ;
     void print_pri() ;
-    void printInOrder_pri(node<t>* currentNode) ;
+    void printInOrder_pri(node* currentNode) ;
     void printfl_pri();
-    void printInOrderfl_pri(node<t>* currentNode) ;
+    void printInOrderfl_pri(node* currentNode) ;
 };
 #endif

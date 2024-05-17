@@ -3,26 +3,13 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-
+#include"Product.cpp"
 using namespace std;
 
-class Item {
-private:
-    string itemName;
-    string category;
-    int price;
-
-public:
-    Item(string name, string cat, int p) : itemName(name), category(cat), price(p) {}
-
-    string getName() const { return itemName; }
-    string getCategory() const { return category; }
-    int getPrice() const { return price; }
-};
 
 class Heap {
 private:
-    vector<Item> heap;
+    vector<Product> heap;
 
     void heapify(int i, bool minHeap) {
         int left = 2 * i + 1;
@@ -53,7 +40,7 @@ private:
     }
 
 public:
-    void addItem(const Item& item, bool minHeap) {
+    void addProduct(const Product& item, bool minHeap) {
         heap.push_back(item);
         int i = heap.size() - 1;
         while (i > 0 && ((minHeap && heap[(i - 1) / 2].getPrice() > heap[i].getPrice()) ||
@@ -63,7 +50,7 @@ public:
         }
     }
 
-    void removeItem(bool minHeap) {
+    void removeProduct(bool minHeap) {
         if (heap.empty()) {
             cout << "Heap is empty!" << endl;
             return;
@@ -75,13 +62,13 @@ public:
 
     void display() const {
         for (const auto& item : heap) {
-            cout << "Item: " << item.getName() << ", Category: " << item.getCategory() << ", Price: " << item.getPrice() << endl;
+            cout << "Product: " << item.getName() << ", Category: " << item.getCategory() << ", Price: " << item.getPrice() << endl;
         }
     }
 
     void sortHeap(bool minHeap) {
         buildHeap(minHeap);
-        vector<Item> sortedHeap;
+        vector<Product> sortedHeap;
         while (!heap.empty()) {
             sortedHeap.push_back(heap[0]);
             heap[0] = heap.back();
@@ -117,9 +104,9 @@ int main() {
         string name, category;
         int price;
         while (inputFile >> name >> category >> price) {
-            Item newItem(name, category, price);
-            minHeap.addItem(newItem, true);
-            maxHeap.addItem(newItem, false);
+            Product newProduct(name, category, price);
+            minHeap.addProduct(newProduct, true);
+            maxHeap.addProduct(newProduct, false);
         }
     } else {
         cout << "Enter items in the format: Name Category Price. Enter 'done' to finish." << endl;
@@ -131,9 +118,9 @@ int main() {
             if (name == "done")
                 break;
             cin >> category >> price;
-            Item newItem(name, category, price);
-            minHeap.addItem(newItem, true);
-            maxHeap.addItem(newItem, false);
+            Product newProduct(name, category, price);
+            minHeap.addProduct(newProduct, true);
+            maxHeap.addProduct(newProduct, false);
         }
     }
 
@@ -162,12 +149,12 @@ int main() {
                         string name, category;
                         int price;
                         cin >> name >> category >> price;
-                        Item newItem(name, category, price);
-                        minHeap.addItem(newItem, true);
+                        Product newProduct(name, category, price);
+                        minHeap.addProduct(newProduct, true);
                         break;
                     }
                     case 2:
-                        minHeap.removeItem(true);
+                        minHeap.removeProduct(true);
                         break;
                     case 3:
                         minHeap.display();
@@ -210,12 +197,12 @@ int main() {
                         string name, category;
                         int price;
                         cin >> name >> category >> price;
-                        Item newItem(name, category, price);
-                        maxHeap.addItem(newItem, false);
+                        Product newProduct(name, category, price);
+                        maxHeap.addProduct(newProduct, false);
                         break;
                     }
                     case 2:
-                        maxHeap.removeItem(false);
+                        maxHeap.removeProduct(false);
                         break;
                     case 3:
                         maxHeap.display();

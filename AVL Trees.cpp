@@ -1,48 +1,20 @@
-
 #include <iostream>
-#include <string>
 #include <vector>
 #include <algorithm>
+#include"Product.cpp"
 using namespace std;
-
-class Item {
-private:
-    string itemName;
-    string category;
-
-public:
-    int price;
-    Item(string name, string category, int price) : itemName(name), category(category), price(price) {}
-
-    bool operator<(const Item& other) {
-        return itemName < other.itemName;
-    }
-    bool operator>(const Item& other) {
-        return itemName > other.itemName;
-    }
-
-
-    void print() {
-        cout << "Item: " << itemName << ", Category: " << category << ", Price: " << price << endl;
-    }
-
-    friend ostream& operator<<(ostream& os, const Item& item) {
-        os << "Item: " << item.itemName << ", Category: " << item.category << ", Price: " << item.price << endl;
-        return os;
-    }
-};
 
 class AVLNode {
 public:
-    Item item;
+    Product item;
     AVLNode* left;
     AVLNode* right;
     int height;
 
-    AVLNode(Item item) : item(item), left(nullptr), right(nullptr), height(1) {}
+    AVLNode(Product item) : item(item), left(nullptr), right(nullptr), height(1) {}
 };
 
-class AVLTree {
+class AVLTree{
 private:
     AVLNode* root;
 
@@ -82,7 +54,7 @@ private:
         return y;
     }
 
-    AVLNode* insertNode(AVLNode* node, Item item) {
+    AVLNode* insertNode(AVLNode* node, Product item) {
         if (node == nullptr) return new AVLNode(item);
 
         if (item < node->item)
@@ -119,7 +91,7 @@ private:
         return current;
     }
 
-    AVLNode* deleteNode(AVLNode* root, Item key) {
+    AVLNode* deleteNode(AVLNode* root, Product key) {
         if (root == nullptr) return root;
 
         if (key < root->item)
@@ -205,13 +177,13 @@ private:
             if (node->right != nullptr) queue.push_back(node->right);
         }
 
-        vector<Item> items;
+        vector<Product> items;
         for (const auto& node : queue) {
             items.push_back(node->item);
         }
 
-        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-            return a.price < b.price;
+        sort(items.begin(), items.end(), [](const Product& a, const Product& b) {
+            return a.getPrice() < b.getPrice();
         });
 
         for (const auto& item : items) {
@@ -223,7 +195,7 @@ private:
         if (root == nullptr) return;
 
         vector<AVLNode*> queue;
-        vector<Item> items;
+        vector<Product> items;
 
         queue.push_back(root);
 
@@ -237,8 +209,8 @@ private:
             if (node->right != nullptr) queue.push_back(node->right);
         }
 
-        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-            return a.price > b.price;
+        sort(items.begin(), items.end(), [](const Product& a, const Product& b) {
+            return a.getPrice() > b.getPrice();
         });
 
         for (const auto& item : items) {
@@ -248,11 +220,11 @@ private:
 public:
     AVLTree() : root(nullptr) {}
 
-    void addItem(Item item) {
+    void addProduct(Product item) {
         root = insertNode(root, item);
     }
 
-    void removeItem(Item item) {
+    void removeProduct(Product item) {
         root = deleteNode(root, item);
     }
 
@@ -286,30 +258,30 @@ int main() {
     AVLTree tree;
 
     // Add some items
-    tree.addItem(Item("Apple", "Fruit", 2));
-    tree.addItem(Item("Carrot", "Vegetable", 3));
-    tree.addItem(Item("Banana", "Fruit", 1));
-    tree.addItem(Item("Milk", "Dairy", 4));
+    tree.addProduct(Product("Apple", "Fruit", 10));
+    tree.addProduct(Product("Carrot", "Vegetable", 3));
+    tree.addProduct(Product("Banana", "Fruit", 2));
+    tree.addProduct(Product("Milk", "Dairy", 4));
 
-    cout << "Items Normal:" << endl;
+    cout << "Products Normal:" << endl;
     tree.displayNormal();
 
-    cout << "Items sorted by name ascending:" << endl;
+    cout << "Products sorted by name ascending:" << endl;
     tree.displayByNameAscending();
 
-    cout << "\nItems sorted by name descending:" << endl;
+    cout << "\nProducts sorted by name descending:" << endl;
     tree.displayByNameDescending();
 
-    cout << "\nItems sorted by price ascending:" << endl;
+    cout << "\nProducts sorted by price ascending:" << endl;
     tree.displayByPriceAscending();
 
-    cout << "\nItems sorted by price descending:" << endl;
+    cout << "\nProducts sorted by price descending:" << endl;
     tree.displayByPriceDescending();
 
-    Item ToRemove("Apple", "Fruit", 2);
-    tree.removeItem(ToRemove);
+    Product ToRemove("Banana", "Fruit", 2);
+    tree.removeProduct(ToRemove);
 
-    cout << "Items Normal:" << endl;
+    cout << "Products Normal:" << endl;
     tree.displayNormal();
 
 

@@ -1,44 +1,41 @@
 #include "binarysearch.h"
 using namespace std;
-template <typename t>
-binarysearch<t>::binarysearch() {
+binarysearch::binarysearch() {
     root = nullptr;
 }
 //=================================================
-template <typename t>
-bool binarysearch<t>::isEmpty() {
+bool binarysearch::isEmpty() {
     return root == nullptr;
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::insert(t item ,t kind ,t price) {
-    node<t>* p = root, *prev = nullptr;
+void binarysearch::insert(Product item) {
+    node* p = root, *prev = nullptr;
     while (p != nullptr){
         prev = p;
-        if (p->data < item)
+        if (p->item < item)
             p = p->right;
         else
             p = p->left;
     }
     if (root == nullptr)
-        root = new node<t>(item,kind,price);
-    else if (prev->data < item)
-        prev->right = new node<t>(item,kind,price);
+        root = new node(item);
+    else if (prev->item < item)
+        prev->right = new node(item);
     else
-        prev->left = new node<t>(item,kind,price);
+        prev->left = new node(item);
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::remove(t item) {
+
+void binarysearch::remove(Product item) {
     if (root == nullptr)
         return;
-    node<t>* currentNode = root;
-    node<t>* parent = nullptr;
+    node* currentNode = root;
+    node* parent = nullptr;
     if (search(item) == 0)
         return;
-    while (currentNode != nullptr && currentNode->data != item) {
+    while (currentNode != nullptr && currentNode->item != item) {
         parent = currentNode;
-        if (item < currentNode->data)
+        if (item < currentNode->item)
             currentNode = currentNode->left;
         else
             currentNode = currentNode->right;
@@ -58,7 +55,7 @@ void binarysearch<t>::remove(t item) {
     }
         // Case 2 have one children
     else if (currentNode->left == nullptr || currentNode->right == nullptr) {
-        node<t>* child = (currentNode->left != nullptr) ? currentNode->left : currentNode->right;
+        node* child = (currentNode->left != nullptr) ? currentNode->left : currentNode->right;
         if (currentNode != root) {
             if (parent->left == currentNode)
                 parent->left = child;
@@ -71,7 +68,7 @@ void binarysearch<t>::remove(t item) {
     }
         // Case 3 have two children
     else {
-        node<t>* successor = currentNode->right;
+        node* successor = currentNode->right;
         parent = nullptr;
         // find minim
         while (successor->left != nullptr) {
@@ -80,7 +77,7 @@ void binarysearch<t>::remove(t item) {
         }
 
         // Copy minim data to the current node
-        currentNode->data = successor->data;
+        currentNode->item = successor->item;
 
         // Remove minim
         if (parent != nullptr)
@@ -92,69 +89,69 @@ void binarysearch<t>::remove(t item) {
     }
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::print() {
+
+void binarysearch::print() {
     printInOrder(root);
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::printInOrder(node<t> *currentNode) {
+
+void binarysearch::printInOrder(node *currentNode) {
     if (currentNode != nullptr) {
         printInOrder(currentNode->left);
-        cout <<"item : "<<currentNode->data<<" ,kind : "<<currentNode->kind<<" ,price : "<<currentNode->price<<endl;
+        cout <<"item : "<<currentNode->item;
         printInOrder(currentNode->right);
     }
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::printfl() {
+
+void binarysearch::printfl() {
     printInOrderfl(root);
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::printInOrderfl(node<t> *currentNode) {
+
+void binarysearch::printInOrderfl(node *currentNode) {
     if (currentNode != nullptr) {
         printInOrderfl(currentNode->right);
-        cout <<"item : "<<currentNode->data<<" ,kind : "<<currentNode->kind<<" ,price : "<<currentNode->price<<endl;
+        cout <<"item : "<<currentNode->item;
         printInOrderfl(currentNode->left);
     }
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::print_pri() {
+
+void binarysearch::print_pri() {
     printInOrder_pri(root);
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::printInOrder_pri(node<t> *currentNode) {
+
+void binarysearch::printInOrder_pri(node *currentNode) {
     if (currentNode != nullptr) {
         printInOrder_pri(currentNode->left);
-        cout <<"price : "<<currentNode->data<<" ,name : "<<currentNode->kind<<" ,kind : "<<currentNode->price<<endl;
+        cout <<"price : "<<currentNode->item;
         printInOrder_pri(currentNode->right);
     }
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::printfl_pri() {
+
+void binarysearch::printfl_pri() {
     printInOrderfl_pri(root);
 }
 //=================================================
-template <typename t>
-void binarysearch<t>::printInOrderfl_pri(node<t> *currentNode) {
+
+void binarysearch::printInOrderfl_pri(node *currentNode) {
     if (currentNode != nullptr) {
         printInOrderfl_pri(currentNode->right);
-        cout <<"price : "<<currentNode->data<<" ,name : "<<currentNode->kind<<" ,kind : "<<currentNode->price<<endl;
+        cout <<"price : "<<currentNode->item;
         printInOrderfl_pri(currentNode->left);
     }
 }
 //=================================================
-template <typename t>
-bool binarysearch<t>::search(t item) {
-    node<t> *p = root;
+
+bool binarysearch::search(Product item) {
+    node *p = root;
     while (p != nullptr) {
-        if (item == p->data)
+        if (item == p->item)
             return 1;
-        else if (item < p->data)
+        else if (item < p->item)
             p = p->left;
         else
             p = p->right;
