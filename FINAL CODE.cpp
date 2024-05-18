@@ -1,9 +1,8 @@
 #include<bits/stdc++.h>
 #include"Heaps.cpp"
-#include"Product.cpp"
 #include"AVL Trees.cpp"
-#include"super_marco/binarysearch.h"
-#include"super_marco/binarysearch.cpp"
+#include"Product.cpp"
+#include"binarysearch.cpp"
 using namespace std;
 
 void bst();
@@ -12,8 +11,7 @@ void heap();
 void displayMenu();
 void readFile(string filename);
 void readTerminal();
-void frstdisplayMenu();
-vector<Product> ChronologicallySorted;
+bool frstdisplayMenu();
 
 int main() {
     cout<<"Welcome to super marco\nchoose your data structure(:"<<endl;
@@ -26,63 +24,79 @@ int main() {
     {
     case 1:
         bst();
+        cout<<"fuck yourself 1";
         break;
     case 2: 
         avl();
+        cout<<"fuck yourself 2";
         break;  
     case 3:
         heap();
+        cout<<"fuck yourself 3";
         break;
     default:
         cout<<"invalid input\n";
         break;
     }
+    return 0;
+}
+
+bool frstdisplayMenu() {
     int choice;
     bool manualInput = false;
     string filename;
-
-    cout << "Do you want to input items manually or from a text file?\n1-for manual\n2 for text file:\n";
+    cout << "Do you want to input items manually or from a text file?\n1-for manual\n2-for text file:\n";
     cin >> choice;
-    if (choice == 2) {
+    return  choice == 2;
+}
+void displayMenu(){
+    cout << "\nMenu:" << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "1. Add item" << endl;
+    cout << "2. Remove item" << endl;
+    cout << "3. Display all items" << endl;
+    cout << "4. Display items sorted by name ascending" << endl;
+    cout << "5. Display items sorted by name descending" << endl;
+    cout << "6. Display items sorted by price ascending" << endl;
+    cout << "7. Display items sorted by price descending" << endl;
+    cout << "0. Exit" << endl;
+    cout << "----------------------------------------" << endl;
+}
+
+void heap() {
+    bool valid = frstdisplayMenu();
+    Heap minHeap, maxHeap;
+    if (valid) {
+        string filename;
         cout << "Enter the filename: ";
         cin >> filename;
-        readFile(filename);
-    } else {
-        manualInput = true;
-    }
-
-    if (!manualInput) {
-    } else {
-        cout << "Enter items in the format: Name Category Price. Enter 'done' to finish." << endl;
+        filename += ".txt";
+        ifstream inputFile(filename);
+        if (!inputFile) {
+            cerr << "Error opening file." << endl;
+            return;
+        }
         string name, category;
         int price;
-        while (true) {
-            cout << "Enter item: ";
-            getline(cin, name);
-            cin >> category >> price;
-            Product newProduct(name, category, price);
+        inputFile.ignore();
+        while (getline(inputFile, name)) {
+            inputFile >> category >> price;
+            Product item(name, category, price);
+            minHeap.addProduct(item, true);
+            maxHeap.addProduct(item, false);
         }
     }
-
-    while (true) {
+    int choice;
+    do {
         cout << "\nChoose an option:" << endl;
         cout << "1. Min Heap" << endl;
         cout << "2. Max Heap" << endl;
-        cout << "3. Exit" << endl;
+        cout << "0. Exit" << endl;
         cin >> choice;
-
-        switch (choice) {
+         switch (choice) {
             case 1: {
-                cout << "\nChoose an operation for Min Heap:" << endl;
-                cout << "1. Add item data" << endl;
-                cout << "2. Remove item data" << endl;
-                cout << "3. Display the item data normally" << endl;
-                cout << "4. Display all the items sorted by their name ascending" << endl;
-                cout << "5. Display all the items sorted by their name descending" << endl;
-                cout << "6. Display all the items sorted by their prices ascending" << endl;
-                cout << "7. Display all the items sorted by their prices descending" << endl;
+                displayMenu();
                 cin >> choice;
-
                 switch (choice) {
                     case 1: {
                         cout << "Enter item details (Name Category Price): ";
@@ -121,16 +135,8 @@ int main() {
                 break;
             }
             case 2: {
-                cout << "\nChoose an operation for Max Heap:" << endl;
-                cout << "1. Add item data" << endl;
-                cout << "2. Remove item data" << endl;
-                cout << "3. Display the item data normally" << endl;
-                cout << "4. Display all the items sorted by their name ascending" << endl;
-                cout << "5. Display all the items sorted by their name descending" << endl;
-                cout << "6. Display all the items sorted by their prices ascending" << endl;
-                cout << "7. Display all the items sorted by their prices descending" << endl;
+                displayMenu();
                 cin >> choice;
-
                 switch (choice) {
                     case 1: {
                         cout << "Enter item details (Name Category Price): ";
@@ -169,32 +175,21 @@ int main() {
                 break;
             }
             case 3:
-                return 0;
+                return ;
             default:
                 cout << "Invalid option." << endl;
         }
-    }
-
-    return 0;
+    } while (choice != 0);
 }
 
-void frstdisplayMenu() {
-    int choice;
-    bool manualInput = false;
-    string filename;
-    cout << "Do you want to input items manually or from a text file?\n1-for manual\n2-for text file:\n";
-    cin >> choice;
-    if (choice == 2) {
+void avl() {
+    bool valid = frstdisplayMenu();
+    AVLTree Tree;
+    if (valid) {
+        string filename;
         cout << "Enter the filename: ";
         cin >> filename;
-        readFile(filename);
-    } else {
-        manualInput = true;
-    }
-}
-
-void readFile(string filename) {
-    filename += ".txt";
+        filename += ".txt";
         ifstream inputFile(filename);
         if (!inputFile) {
             cerr << "Error opening file." << endl;
@@ -202,12 +197,99 @@ void readFile(string filename) {
         }
         string name, category;
         int price;
-        while (getline(inputFile, name) && inputFile >> category >> price)
-            ChronologicallySorted.push_back(Product(name, category, price));
+        inputFile.ignore();
+        while (getline(inputFile, name)) {
+            inputFile >> category >> price;
+            Product item(name, category, price);
+            Tree.addProduct(item);
+        }
+    }
+    int choice;
+    do {
+        displayMenu();
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1: {
+                string name,kind;
+                int price;
+                cout<<"put name : ";
+                cin.ignore();
+                getline(cin,name);
+                cout<<"put kind : ";
+                cin>>kind;
+                cout<<"put price : ";
+                cin>>price;
+                Product item(name,kind,price);
+                Tree.addProduct(item);
+                break;
+            }
+            case 2: {
+                string name, category;
+                int price;
+                cout<<"\nput name item you want remove: ";
+                cin.ignore();
+                getline(cin,name);
+                cout<<"put price item you want remove: ";
+                cin>>price;
+                Product item(name, category, price);
+                Tree.removeProduct(item);
+                break;
+            }
+            case 3: {
+                Tree.displayNormal();
+                break;
+            }
+            case 4: {
+                Tree.displayByNameAscending();
+                break;
+            }
+            case 5: {
+                Tree.displayByNameDescending();
+                break;
+            }
+            case 6: {
+                Tree.displayByPriceAscending();
+                break;
+            }
+            case 7: {
+                Tree.displayByPriceDescending();
+                break;
+            }
+            case 0:
+                cout << "closing menu" << endl;
+                break;
+            default:
+                cout << "wrong choice please choose from the menu" << endl;
+        }
+    } while (choice != 0);
 }
+
 void bst() {
+    bool valid = frstdisplayMenu();
     binarysearch list;
     binarysearch listp;
+    if (valid) {
+        string filename;
+        cout << "Enter the filename: ";
+        cin >> filename;
+        filename += ".txt";
+        ifstream inputFile(filename);
+        if (!inputFile) {
+            cerr << "Error opening file." << endl;
+            return;
+        }
+        string name, category;
+        int price;
+        inputFile.ignore();
+        while (getline(inputFile, name)) {
+            inputFile >> category >> price;
+            Product item(name, category, price);
+            list.insert(item);
+            listp.insert(item);
+        }
+        inputFile.close();
+    }
     int choice;
     do {
         displayMenu();
