@@ -160,63 +160,39 @@ private:
         cout << root->item;
         displayByNameDescending(root->left);
     }
-
+    void collectItemsInOrder(AVLNode* node, vector<Item>& items) {
+        if (node == nullptr) return;
+        collectItemsInOrder(node->left, items); // Traverse the left subtree
+        items.push_back(node->item);            // Visit the node
+        collectItemsInOrder(node->right, items); // Traverse the right subtree
+    }
     // Function to display items sorted by price ascending
     void displayByPriceAscending(AVLNode* root) {
         if (root == nullptr) return;
-
-        vector<AVLNode*> queue;
-        queue.push_back(root);
-
-        while (!queue.empty()) {
-            AVLNode* node = queue.front();
-            queue.erase(queue.begin());
-
-            cout << node->item;
-
-            if (node->left != nullptr) queue.push_back(node->left);
-            if (node->right != nullptr) queue.push_back(node->right);
-        }
-
-        vector<Product> items;
-        for (const auto& node : queue) {
-            items.push_back(node->item);
-        }
-
-        sort(items.begin(), items.end(), [](const Product& a, const Product& b) {
-            return a.getPrice() < b.getPrice();
+        vector<Item> items;
+        collectItemsInOrder(root, items);
+        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+            return a.price < b.price;
         });
 
         for (const auto& item : items) {
-            cout << item;
+            cout << item ;
         }
     }
 
     void displayByPriceDescending(AVLNode* root) {
         if (root == nullptr) return;
-
-        vector<AVLNode*> queue;
-        vector<Product> items;
-
-        queue.push_back(root);
-
-        while (!queue.empty()) {
-            AVLNode* node = queue.front();
-            queue.erase(queue.begin());
-
-            items.push_back(node->item);
-
-            if (node->left != nullptr) queue.push_back(node->left);
-            if (node->right != nullptr) queue.push_back(node->right);
-        }
-
-        sort(items.begin(), items.end(), [](const Product& a, const Product& b) {
-            return a.getPrice() > b.getPrice();
+        vector<Item> items;
+        collectItemsInOrder(root, items);
+        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+            return a.price > b.price;
         });
 
         for (const auto& item : items) {
-            cout << item;
+            cout << item ;
         }
+    }
+    
     }
 public:
     AVLTree() : root(nullptr) {}
