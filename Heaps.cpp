@@ -10,72 +10,95 @@ using namespace std;
 class Heap {
 private:
     vector<Product> heap;
+    vector<Product> chronological;
+bool isMaxHeap;
 
-    void heapify(int i, bool minHeap) {
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-        int largest_smallest = i;
-
-        if (minHeap) {
-            if (left < heap.size() && heap[left].getPrice() < heap[largest_smallest].getPrice())
-                largest_smallest = left;
-            if (right < heap.size() && heap[right].getPrice() < heap[largest_smallest].getPrice())
-                largest_smallest = right;
-        } else {
-            if (left < heap.size() && heap[left].getPrice() > heap[largest_smallest].getPrice())
-                largest_smallest = left;
-            if (right < heap.size() && heap[right].getPrice() > heap[largest_smallest].getPrice())
-                largest_smallest = right;
-        }
-
-        if (largest_smallest != i) {
-            swap(heap[i], heap[largest_smallest]);
-            heapify(largest_smallest, minHeap);
+    void heapifyUp(int index) {
+        if (index && compare(heap[parent(index)], heap[index])) {
+            swap(heap[index], heap[parent(index)]);
+            heapifyUp(parent(index));
         }
     }
 
-    void buildHeap(bool minHeap) {
-        for (int i = heap.size() / 2 - 1; i >= 0; --i)
-            heapify(i, minHeap);
+    void heapifyDown(int index) {
+        int leftChild = left(index);
+        int rightChild = right(index);
+        int swapIndex = index;
+
+        if (leftChild < heap.size() && compare(heap[swapIndex], heap[leftChild])) {
+            swapIndex = leftChild;
+        }
+
+        if (rightChild < heap.size() && compare(heap[swapIndex], heap[rightChild])) {
+            swapIndex = rightChild;
+        }
+
+        if (swapIndex != index) {
+            swap(heap[index], heap[swapIndex]);
+            heapifyDown(swapIndex);
+        }
+    }
+
+    int parent(int i) { return (i - 1) / 2; }
+    int left(int i) { return 2 * i + 1; }
+    int right(int i) { return 2 * i + 2; }
+
+    bool compare(const Product& a, const Product& b) {
+        if (isMaxHeap) {
+            return a.getPrice() < b.getPrice();
+        } else {
+            return a.getPrice() > b.getPrice();
+        }
     }
 
 public:
-    void addProduct(const Product& item, bool minHeap) {
+    Heap(bool maxHeap) : isMaxHeap(maxHeap) {}
+
+    void insert(const Product& item) {
         heap.push_back(item);
-        int i = heap.size() - 1;
-        while (i > 0 && ((minHeap && heap[(i - 1) / 2].getPrice() > heap[i].getPrice()) ||
-                         (!minHeap && heap[(i - 1) / 2].getPrice() < heap[i].getPrice()))) {
-            swap(heap[i], heap[(i - 1) / 2]);
-            i = (i - 1) / 2;
-        }
+        chronological.push_back(item);
+        heapifyUp(heap.size() - 1);
     }
 
-    void removeProduct(bool minHeap) {
+    void remove() {
         if (heap.empty()) {
             cout << "Heap is empty!" << endl;
             return;
         }
         heap[0] = heap.back();
         heap.pop_back();
-        heapify(0, minHeap);
+        heapifyDown(0);
     }
 
     void display() const {
         for (const auto& item : heap) {
-            cout << "Product: " << item.getName() << ", Category: " << item.getCategory() << ", Price: " << item.getPrice() << endl;
+            cout<<item;
+        }
+    }
+    void Normally_display() {
+        for (const auto& item : chronological) {
+            cout<<item;
         }
     }
 
-    void sortHeap(bool minHeap) {
-        buildHeap(minHeap);
-        vector<Product> sortedHeap;
-        while (!heap.empty()) {
-            sortedHeap.push_back(heap[0]);
-            heap[0] = heap.back();
-            heap.pop_back();
-            heapify(0, minHeap);
+    void sortByName(bool ascending) {
+        auto heapCopy = heap;
+        sort(heapCopy.begin(), heapCopy.end(), [ascending](const Product& a, const Product& b) {
+            return ascending ? a.getName() < b.getName() : a.getName() > b.getName();
+        });
+        for (const auto& item : heapCopy) {
+            cout<<item;
         }
-        heap = sortedHeap;
+    }
+
+    void sortByPrice(bool ascending) {
+        auto heapCopy = heap;
+        sort(heapCopy.begin(), heapCopy.end(), [ascending](const Product& a, const Product& b) {
+            return ascending ? a.getPrice() < b.getPrice() : a.getPrice() > b.getPrice();
+        });
+        for (const auto& item : heapCopy) {
+            cout<<item;
+        }
     }
 };
 

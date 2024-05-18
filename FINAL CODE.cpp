@@ -7,7 +7,7 @@ using namespace std;
 
 void bst();
 void avl();
-void heap();
+void heap(bool isMaxHeap);
 void displayMenu();
 void readFile(string filename);
 void readTerminal();
@@ -24,15 +24,33 @@ int main() {
     {
     case 1:
         bst();
-        cout<<"fuck yourself 1";
         break;
     case 2: 
         avl();
-        cout<<"fuck yourself 2";
         break;  
     case 3:
-        heap();
-        cout<<"fuck yourself 3";
+        int choice;
+    do {
+        cout << "\nMain Menu:\n";
+        cout << "1. Use Max Heap\n";
+        cout << "2. Use Min Heap\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                heap(true);
+                break;
+            case 2:
+                heap(false);
+                break;
+            case 0:
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 0);
         break;
     default:
         cout<<"invalid input\n";
@@ -63,9 +81,9 @@ void displayMenu(){
     cout << "----------------------------------------" << endl;
 }
 
-void heap() {
+void heap(bool isMaxHeap) {
     bool valid = frstdisplayMenu();
-    Heap minHeap, maxHeap;
+    Heap heap(isMaxHeap);
     if (valid) {
         string filename;
         cout << "Enter the filename: ";
@@ -85,104 +103,53 @@ void heap() {
             getline(inputFile, name);
             inputFile >> category >> price;
             Product item(name, category, price);
-            minHeap.addProduct(item, true);
-            maxHeap.addProduct(item, false);
+            heap.insert(item);
         }
     }
     int choice;
     do {
-        cout << "\nChoose an option:" << endl;
-        cout << "1. Min Heap" << endl;
-        cout << "2. Max Heap" << endl;
-        cout << "0. Exit" << endl;
+        displayMenu();
+        cout << "Enter your choice: ";
         cin >> choice;
-         switch (choice) {
-            case 1: {
-                displayMenu();
-                cin >> choice;
-                switch (choice) {
-                    case 1: {
-                        cout << "Enter item details (Name Category Price): ";
-                        string name, category;
-                        int price;
-                        cin >> name >> category >> price;
-                        Product newProduct(name, category, price);
-                        minHeap.addProduct(newProduct, true);
-                        break;
-                    }
-                    case 2:
-                        minHeap.removeProduct(true);
-                        break;
-                    case 3:
-                        minHeap.display();
-                        break;
-                    case 4:
-                        minHeap.sortHeap(true);
-                        minHeap.display();
-                        break;
-                    case 5:
-                        minHeap.sortHeap(false);
-                        minHeap.display();
-                        break;
-                    case 6:
-                        minHeap.sortHeap(true);
-                        minHeap.display();
-                        break;
-                    case 7:
-                        minHeap.sortHeap(false);
-                        minHeap.display();
-                        break;
-                    default:
-                        cout << "Invalid option." << endl;
-                }
+        string name,kind;
+        int price;
+        switch (choice) {
+            case 1:
+                cout<<"put name : ";
+                cin.ignore();
+                getline(cin,name);
+                cout<<"put kind : ";
+                cin>>kind;
+                cout<<"put price : ";
+                cin>>price;
+                heap.insert(Product(name,kind,price));
                 break;
-            }
-            case 2: {
-                displayMenu();
-                cin >> choice;
-                switch (choice) {
-                    case 1: {
-                        cout << "Enter item details (Name Category Price): ";
-                        string name, category;
-                        int price;
-                        cin >> name >> category >> price;
-                        Product newProduct(name, category, price);
-                        maxHeap.addProduct(newProduct, false);
-                        break;
-                    }
-                    case 2:
-                        maxHeap.removeProduct(false);
-                        break;
-                    case 3:
-                        maxHeap.display();
-                        break;
-                    case 4:
-                        maxHeap.sortHeap(true);
-                        maxHeap.display();
-                        break;
-                    case 5:
-                        maxHeap.sortHeap(false);
-                        maxHeap.display();
-                        break;
-                    case 6:
-                        maxHeap.sortHeap(true);
-                        maxHeap.display();
-                        break;
-                    case 7:
-                        maxHeap.sortHeap(false);
-                        maxHeap.display();
-                        break;
-                    default:
-                        cout << "Invalid option." << endl;
-                }
+            case 2:
+                heap.remove();
                 break;
-            }
             case 3:
-                return ;
+                heap.Normally_display();
+                break;
+            case 4:
+                heap.sortByName(true);
+                break;
+            case 5:
+                heap.sortByName(false);
+                break;
+            case 6:
+                heap.sortByPrice(true);
+                break;
+            case 7:
+                heap.sortByPrice(false);
+                break;
+            case 0:
+                break;
             default:
-                cout << "Invalid option." << endl;
+                cout << "Invalid choice. Please try again.\n";
         }
-    } while (choice != 0);
+    }while (choice);
+    
+
 }
 
 void avl() {
