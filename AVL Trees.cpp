@@ -139,11 +139,11 @@ private:
         return root;
     }
 
-    void inOrderTraversal(AVLNode* root) {
-        if (root == nullptr) return;
-        inOrderTraversal(root->left);
+   void NormalTraversal(AVLNode* root) {
+        if (!root) return;
         cout << root->item;
-        inOrderTraversal(root->right);
+        NormalTraversal(root->left);
+        NormalTraversal(root->right);
     }
 
     void displayByNameAscending(AVLNode* root) {
@@ -230,7 +230,7 @@ public:
     }
 
     void displayNormal() {
-        inOrderTraversal(root);
+         NormalTraversal(root);
     }
 
     // Function to display items sorted by name ascending
