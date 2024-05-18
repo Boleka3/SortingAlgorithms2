@@ -65,6 +65,10 @@ public:
             cout << "Heap is empty!" << endl;
             return;
         }
+        auto it = find(chronological.begin(), chronological.end(), heap.back());
+        if(it != chronological.end()){
+            chronological.erase(it);
+        }
         heap[0] = heap.back();
         heap.pop_back();
         heapifyDown(0);

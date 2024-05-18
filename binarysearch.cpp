@@ -1,4 +1,5 @@
 #include "binarysearch.h"
+#include<algorithm>
 using namespace std;
 binarysearch::binarysearch() {
     root = nullptr;
@@ -9,6 +10,7 @@ bool binarysearch::isEmpty() {
 }
 //=================================================
 void binarysearch::insert(Product item) {
+    chronological.push_back(item);
     node* p = root, *prev = nullptr;
     while (p != nullptr){
         prev = p;
@@ -25,6 +27,7 @@ void binarysearch::insert(Product item) {
         prev->left = new node(item);
 }
 void binarysearch::insert_pri(Product item) {
+    chronological.push_back(item);
     node* p = root, *prev = nullptr;
     while (p != nullptr){
         prev = p;
@@ -43,6 +46,10 @@ void binarysearch::insert_pri(Product item) {
 //=================================================
 
 void binarysearch::remove(Product item) {
+    auto it = find(chronological.begin(), chronological.end(), item);
+    if(it != chronological.end()){
+        chronological.erase(it);
+    }
     if (root == nullptr)
         return;
     node* currentNode = root;
@@ -166,6 +173,13 @@ void binarysearch::remove_pri(Product item) {
         delete successor;
     }
 }
+//=================================================
+void binarysearch::printNormally() {
+    for(auto i : chronological){
+        cout<<i;
+    }
+}
+
 //=================================================
 
 void binarysearch::print() {

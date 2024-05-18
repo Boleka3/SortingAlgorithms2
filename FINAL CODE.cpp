@@ -200,10 +200,12 @@ void avl() {
             case 2: {
                 string name, category;
                 int price;
-                cout<<"\nput name item you want remove: ";
+                cout<<"\ninput item's name you want to remove: ";
                 cin.ignore();
                 getline(cin,name);
-                cout<<"put price item you want remove: ";
+                cout<<"put item's category you want to remove: ";
+                cin>>category;
+                cout<<"put item's price you want to remove: ";
                 cin>>price;
                 Product item(name, category, price);
                 Tree.removeProduct(item);
@@ -290,10 +292,12 @@ void bst() {
             case 2: {
                 string name, category;
                 int price;
-                cout<<"\nput name item you want remove: ";
+                cout<<"\ninput item's name you want to remove: ";
                 cin.ignore();
                 getline(cin,name);
-                cout<<"put price item you want remove: ";
+                cout<<"put item's category you want to remove: ";
+                cin>>category;
+                cout<<"put item's price you want to remove: ";
                 cin>>price;
                 Product item(name, category, price);
                 list.remove(item);
@@ -301,7 +305,7 @@ void bst() {
                 break;
             }
             case 3: {
-                //your function
+                list.printNormally();
                 break;
             }
             case 4: {

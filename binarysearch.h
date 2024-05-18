@@ -2,6 +2,7 @@
 #define SUPER_MARCO_BINARYSEARCH_H
 #include <iostream>
 #include <string>
+#include<vector>
 #include"Product.h"
 
 using namespace std;
@@ -16,6 +17,7 @@ public:
 
 class binarysearch{
 public:
+    vector<Product> chronological;
     node* root;
     binarysearch();
     bool isEmpty();
@@ -25,6 +27,7 @@ public:
     void remove_pri(Product item);
     void insert (Product item);
     void insert_pri(Product item);
+    void printNormally() ;
     void print() ;
     void printInOrder(node* currentNode) ;
     void printfl();
