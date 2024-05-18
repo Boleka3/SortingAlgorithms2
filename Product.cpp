@@ -11,18 +11,18 @@ string Product:: getCategory() const { return category; }
 
 int Product:: getPrice() const { return price; }
 bool Product:: operator<(const Product& other) {
-    return itemName < other.itemName;
+    return itemName < other.getName();
 }
 bool Product:: operator>(const Product& other) {
-    return itemName > other.itemName;
+    return itemName > other.getName();
 }
 
 bool Product:: operator==(const Product& other) {
-    return itemName == other.itemName and category == other.category and price == other.price;
+    return itemName == other.getName() and category == other.getCategory() and price == other.getPrice();
 }
 
 bool Product:: operator!=(const Product& other) {
-    return itemName != other.itemName and category != other.category and price != other.price;
+    return itemName != other.getName() and category != other.getCategory() and price != other.getPrice();
 }
 
 void Product:: print() {
@@ -30,6 +30,6 @@ void Product:: print() {
 }
 
 ostream& operator<<(ostream& os, const Product& item) {
-    os << "Product: " << item.itemName << ", Category: " << item.category << ", Price: " << item.price << endl;
+    os << "Product: " << item.getName() << ", Category: " << item.getCategory() << ", Price: " << item.getPrice() << endl;
     return os;
 }

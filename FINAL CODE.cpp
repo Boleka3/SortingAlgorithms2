@@ -78,8 +78,11 @@ void heap() {
         }
         string name, category;
         int price;
-        inputFile.ignore();
-        while (getline(inputFile, name)) {
+        int n;
+        inputFile >> n;
+        while (n--) {
+            inputFile.ignore();
+            getline(inputFile, name);
             inputFile >> category >> price;
             Product item(name, category, price);
             minHeap.addProduct(item, true);
@@ -197,8 +200,11 @@ void avl() {
         }
         string name, category;
         int price;
-        inputFile.ignore();
-        while (getline(inputFile, name)) {
+        int n;
+        inputFile >> n;
+        while (n--) {
+            inputFile.ignore();
+            getline(inputFile, name);
             inputFile >> category >> price;
             Product item(name, category, price);
             Tree.addProduct(item);
@@ -281,12 +287,15 @@ void bst() {
         }
         string name, category;
         int price;
-        inputFile.ignore();
-        while (getline(inputFile, name)) {
+        int n;
+        inputFile >> n;
+        while (n--) {
+            inputFile.ignore();
+            getline(inputFile, name);
             inputFile >> category >> price;
             Product item(name, category, price);
             list.insert(item);
-            listp.insert(item);
+            listp.insert_pri(item);
         }
         inputFile.close();
     }
@@ -308,7 +317,7 @@ void bst() {
                 cin>>price;
                 Product item(name,kind,price);
                 list.insert(item);
-                listp.insert(item);
+                listp.insert_pri(item);
                 break;
             }
             case 2: {
@@ -321,6 +330,7 @@ void bst() {
                 cin>>price;
                 Product item(name, category, price);
                 list.remove(item);
+                listp.remove_pri(item);
                 break;
             }
             case 3: {

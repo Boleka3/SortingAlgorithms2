@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include"Product.cpp"
+#include"Product.h"
 using namespace std;
 
 class AVLNode {
@@ -160,7 +160,7 @@ private:
         cout << root->item;
         displayByNameDescending(root->left);
     }
-    void collectItemsInOrder(AVLNode* node, vector<Item>& items) {
+    void collectItemsInOrder(AVLNode* node, vector<Product>& items) {
         if (node == nullptr) return;
         collectItemsInOrder(node->left, items); // Traverse the left subtree
         items.push_back(node->item);            // Visit the node
@@ -169,10 +169,10 @@ private:
     // Function to display items sorted by price ascending
     void displayByPriceAscending(AVLNode* root) {
         if (root == nullptr) return;
-        vector<Item> items;
+        vector<Product> items;
         collectItemsInOrder(root, items);
-        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-            return a.price < b.price;
+        sort(items.begin(), items.end(), [](const Product& a, const Product& b) {
+            return a.getPrice() < b.getPrice();
         });
 
         for (const auto& item : items) {
@@ -182,10 +182,10 @@ private:
 
     void displayByPriceDescending(AVLNode* root) {
         if (root == nullptr) return;
-        vector<Item> items;
+        vector<Product> items;
         collectItemsInOrder(root, items);
-        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-            return a.price > b.price;
+        sort(items.begin(), items.end(), [](const Product& a, const Product& b) {
+            return a.getPrice() > b.getPrice();
         });
 
         for (const auto& item : items) {
@@ -193,7 +193,6 @@ private:
         }
     }
     
-    }
 public:
     AVLTree() : root(nullptr) {}
 
@@ -231,37 +230,37 @@ public:
     }
 };
 
-int main() {
-    AVLTree tree;
+// int main() {
+//     AVLTree tree;
 
-    // Add some items
-    tree.addProduct(Product("Apple", "Fruit", 10));
-    tree.addProduct(Product("Carrot", "Vegetable", 3));
-    tree.addProduct(Product("Banana", "Fruit", 2));
-    tree.addProduct(Product("Milk", "Dairy", 4));
+//     // Add some items
+//     tree.addProduct(Product("Apple", "Fruit", 10));
+//     tree.addProduct(Product("Carrot", "Vegetable", 3));
+//     tree.addProduct(Product("Banana", "Fruit", 2));
+//     tree.addProduct(Product("Milk", "Dairy", 4));
 
-    cout << "Products Normal:" << endl;
-    tree.displayNormal();
+//     cout << "Products Normal:" << endl;
+//     tree.displayNormal();
 
-    cout << "Products sorted by name ascending:" << endl;
-    tree.displayByNameAscending();
+//     cout << "Products sorted by name ascending:" << endl;
+//     tree.displayByNameAscending();
 
-    cout << "\nProducts sorted by name descending:" << endl;
-    tree.displayByNameDescending();
+//     cout << "\nProducts sorted by name descending:" << endl;
+//     tree.displayByNameDescending();
 
-    cout << "\nProducts sorted by price ascending:" << endl;
-    tree.displayByPriceAscending();
+//     cout << "\nProducts sorted by price ascending:" << endl;
+//     tree.displayByPriceAscending();
 
-    cout << "\nProducts sorted by price descending:" << endl;
-    tree.displayByPriceDescending();
+//     cout << "\nProducts sorted by price descending:" << endl;
+//     tree.displayByPriceDescending();
 
-    Product ToRemove("Banana", "Fruit", 2);
-    tree.removeProduct(ToRemove);
+//     Product ToRemove("Banana", "Fruit", 2);
+//     tree.removeProduct(ToRemove);
 
-    cout << "Products Normal:" << endl;
-    tree.displayNormal();
+//     cout << "Products Normal:" << endl;
+//     tree.displayNormal();
 
 
-    return 0;
+//     return 0;
 
-}
+// }

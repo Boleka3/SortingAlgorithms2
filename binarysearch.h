@@ -20,8 +20,11 @@ public:
     binarysearch();
     bool isEmpty();
     bool search(Product item) ;
+    bool search_pri(Product item);
     void remove(Product item) ;
+    void remove_pri(Product item);
     void insert (Product item);
+    void insert_pri(Product item);
     void print() ;
     void printInOrder(node* currentNode) ;
     void printfl();
