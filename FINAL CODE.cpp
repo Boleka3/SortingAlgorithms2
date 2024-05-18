@@ -9,8 +9,6 @@ void bst();
 void avl();
 void heap(bool isMaxHeap);
 void displayMenu();
-void readFile(string filename);
-void readTerminal();
 bool frstdisplayMenu();
 
 int main() {
