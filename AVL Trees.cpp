@@ -141,10 +141,10 @@ private:
 
    void NormalTraversal(AVLNode* root) {
         if (!root) return;
-        cout << root->item;
-        NormalTraversal(root->left);
-        NormalTraversal(root->right);
-    }
+       NormalTraversal(root->right);
+       cout << root->item;
+       NormalTraversal(root->left);
+   }
 
     void displayByNameAscending(AVLNode* root) {
         if (root == nullptr) return;
@@ -209,12 +209,9 @@ public:
     }
 
     // Function to display items sorted by name ascending
-
-
     void displayByNameAscending() {
         displayByNameAscending(root);
     }
-
     // Function to display items sorted by name descending
     void displayByNameDescending() {
         displayByNameDescending(root);
@@ -223,44 +220,43 @@ public:
     void displayByPriceAscending() {
         displayByPriceAscending(root);
     }
-
     // Function to display items sorted by price descending
     void displayByPriceDescending() {
         displayByPriceDescending(root);
     }
 };
-
+//
 // int main() {
 //     AVLTree tree;
-
+//
 //     // Add some items
 //     tree.addProduct(Product("Apple", "Fruit", 10));
 //     tree.addProduct(Product("Carrot", "Vegetable", 3));
 //     tree.addProduct(Product("Banana", "Fruit", 2));
 //     tree.addProduct(Product("Milk", "Dairy", 4));
-
+//
 //     cout << "Products Normal:" << endl;
 //     tree.displayNormal();
-
+//
 //     cout << "Products sorted by name ascending:" << endl;
 //     tree.displayByNameAscending();
-
+//
 //     cout << "\nProducts sorted by name descending:" << endl;
 //     tree.displayByNameDescending();
-
+//
 //     cout << "\nProducts sorted by price ascending:" << endl;
 //     tree.displayByPriceAscending();
-
+//
 //     cout << "\nProducts sorted by price descending:" << endl;
 //     tree.displayByPriceDescending();
-
+//
 //     Product ToRemove("Banana", "Fruit", 2);
 //     tree.removeProduct(ToRemove);
-
+//
 //     cout << "Products Normal:" << endl;
 //     tree.displayNormal();
-
-
+//
+//
 //     return 0;
-
+//
 // }
