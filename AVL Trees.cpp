@@ -18,7 +18,7 @@ public:
 class AVLTree{
 private:
     AVLNode* root;
-
+    vector<Product> chronological;
     int height(AVLNode* node) {
         if (node == nullptr) return 0;
         return node->height;
@@ -56,6 +56,7 @@ private:
     }
 
     AVLNode* insertNode(AVLNode* node, Product item) {
+        chronological.push_back(item);
         if (node == nullptr) return new AVLNode(item);
 
         if (item < node->item)
@@ -114,6 +115,10 @@ private:
                 AVLNode* temp = minValueNode(root->right);
                 root->item = temp->item;
                 root->right = deleteNode(root->right, temp->item);
+            }
+            auto it = find(chronological.begin(), chronological.end(),key);
+            if(it != chronological.end()){
+                chronological.erase(it);
             }
         }
 
@@ -205,7 +210,10 @@ public:
     }
 
     void displayNormal() {
-         NormalTraversal(root);
+        chronological.erase(unique(chronological.begin(), chronological.end()), chronological.end());
+            for (const auto& item : chronological) {
+                cout<<item;
+            }
     }
 
     // Function to display items sorted by name ascending
